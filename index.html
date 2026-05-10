@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JUKUMU — CBO Financial Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+  <style>
+    :root {
+      --bg:#F4F6F0; --surface:#FFFFFF; --border:#D8DDD4;
+      --ink:#0D1117; --ink-mid:#1E2733;
+      --sage:#5A7A5C; --sage-light:#8AAD8C; --sage-pale:#EBF2EB;
+      --copper:#B5632A; --copper-light:#D4854A; --copper-pale:#FAF0E8;
+      --ivory:#F9F7F2;
+      --text-head:#0D1117; --text-body:#2E3A2F; --text-muted:#6A7D6B;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-body);line-height:1.6;}
+
+    /* NAV */
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:15px 40px;border-bottom:1px solid var(--border);background:var(--ivory);position:sticky;top:0;z-index:100;}
+    .logo{display:flex;align-items:center;gap:10px;}
+    .logo-mark{display:flex;align-items:center;justify-content:center;}
+    .logo-text{font-family:'DM Serif Display',serif;font-size:21px;color:var(--ink);letter-spacing:.5px;}
+    .nav-links{display:flex;gap:16px;align-items:center;}
+    .nav-links a{font-size:14px;color:var(--text-muted);text-decoration:none;font-weight:500;transition:color .15s;}
+    .nav-links a:hover{color:var(--copper);}
+    .btn-signin{background:transparent;color:var(--sage);border:1.5px solid var(--sage);border-radius:6px;padding:8px 18px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
+    .btn-signin:hover{background:var(--sage);color:#fff;}
+    .btn-nav{background:var(--copper);color:#fff;border:none;border-radius:6px;padding:9px 22px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
+    .btn-nav:hover{background:#9E5222;}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 1fr;min-height:540px;}
+    .hero-left{background:var(--ink);padding:80px 52px 68px;display:flex;flex-direction:column;justify-content:center;}
+    .hero-tag{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.65);padding:5px 14px;border-radius:4px;font-size:12px;font-weight:500;margin-bottom:28px;letter-spacing:.5px;text-transform:uppercase;width:fit-content;}
+    .hero-left h1{font-family:'DM Serif Display',serif;font-size:48px;line-height:1.1;color:#fff;margin-bottom:20px;}
+    .hero-left h1 em{color:var(--copper-light);font-style:italic;}
+    .hero-left p{font-size:16px;color:rgba(255,255,255,.65);line-height:1.72;margin-bottom:34px;max-width:400px;}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
+    .btn-primary{background:var(--copper);color:#fff;border:none;border-radius:6px;padding:13px 28px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
+    .btn-primary:hover{background:#9E5222;}
+    .btn-ghost{background:transparent;color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:12px 24px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
+    .btn-ghost:hover{background:rgba(255,255,255,.08);}
+    .hero-note{font-size:12px;color:rgba(255,255,255,.4);}
+    .hero-right{background:var(--sage-pale);padding:44px 40px;display:flex;flex-direction:column;justify-content:center;}
+
+    /* DASH MOCKUP */
+    .dash{background:var(--surface);border-radius:14px;border:1px solid var(--border);padding:22px 20px;}
+    .win-bar{display:flex;gap:6px;align-items:center;margin-bottom:16px;}
+    .w{width:10px;height:10px;border-radius:50%;}
+    .dash-lbl{font-size:12px;color:var(--text-muted);margin-left:6px;font-weight:500;}
+    .kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
+    .kpi{background:var(--bg);border-radius:8px;border:1px solid var(--border);padding:10px 12px;}
+    .kpi-l{font-size:10px;color:var(--text-muted);margin-bottom:3px;}
+    .kpi-v{font-size:15px;font-weight:700;color:var(--text-head);}
+    .kpi-v.cop{color:var(--copper);}
+    .chart-box{background:var(--bg);border-radius:8px;border:1px solid var(--border);padding:12px 14px;margin-bottom:10px;}
+    .chart-lbl{font-size:10px;color:var(--text-muted);margin-bottom:8px;font-weight:500;}
+    .bars{display:flex;gap:8px;align-items:flex-end;height:64px;}
+    .bw{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;}
+    .b{width:100%;border-radius:3px 3px 0 0;}
+    .bl{font-size:9px;color:var(--text-muted);}
+    .txs{display:flex;flex-direction:column;gap:7px;}
+    .tx{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-radius:7px;border:1px solid var(--border);padding:8px 11px;}
+    .txl{display:flex;align-items:center;gap:9px;}
+    .av{width:28px;height:28px;border-radius:50%;background:var(--sage-pale);color:var(--sage);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;border:1px solid var(--border);}
+    .tn{font-size:12px;font-weight:500;color:var(--text-head);}
+    .ts{font-size:10px;color:var(--text-muted);}
+    .ta{font-size:12px;font-weight:700;color:var(--sage);}
+    .auto-badge{font-size:9px;background:var(--sage-pale);color:var(--sage);padding:2px 7px;border-radius:8px;font-weight:600;border:1px solid var(--sage-light);}
+
+    /* TICKER */
+    .ticker{background:var(--ink-mid);padding:11px 40px;display:flex;gap:36px;overflow:hidden;flex-wrap:nowrap;}
+    .tick-item{font-size:12px;color:rgba(255,255,255,.45);white-space:nowrap;display:flex;gap:8px;}
+    .tick-item span{color:var(--copper-light);font-weight:600;}
+
+    /* QUESTIONS */
+    .questions{padding:72px 40px;max-width:1060px;margin:0 auto;}
+    .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--copper);font-weight:600;margin-bottom:10px;}
+    .sec-title{font-family:'DM Serif Display',serif;font-size:36px;color:var(--text-head);margin-bottom:8px;line-height:1.2;}
+    .sec-sub{font-size:15px;color:var(--text-muted);max-width:500px;line-height:1.65;margin-bottom:36px;}
+    .q-grid{display:flex;flex-direction:column;}
+    .q-row{display:flex;align-items:center;justify-content:space-between;padding:16px 12px;border-bottom:1px solid var(--border);cursor:pointer;transition:all .15s;border-radius:6px;}
+    .q-row:first-child{border-top:1px solid var(--border);}
+    .q-row:hover,.q-row[aria-expanded="true"]{background:var(--copper-pale);}
+    .q-row:hover .q-text,.q-row[aria-expanded="true"] .q-text{color:var(--copper);}
+    .q-left{display:flex;align-items:center;gap:16px;}
+    .q-num{font-family:'DM Serif Display',serif;font-size:13px;font-style:italic;color:var(--border);}
+    .q-text{font-size:15px;font-weight:500;color:var(--text-body);transition:color .15s;}
+    .q-arrow{transition:transform .25s;color:var(--border);font-size:16px;}
+    .q-answer{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 12px;}
+    .q-answer.open{max-height:200px;padding:0 12px 14px;}
+    .q-answer p{font-size:14px;color:var(--text-muted);line-height:1.7;padding-left:29px;}
+    .q-answer p strong{color:var(--copper);}
+
+    /* FEATURES */
+    .feats-wrap{background:var(--ink);padding:72px 40px;}
+    .feats-inner{max-width:1060px;margin:0 auto;}
+    .feats-inner .eyebrow{color:var(--copper-light);}
+    .feats-inner .sec-title{color:#fff;}
+    .feats-inner .sec-sub{color:rgba(255,255,255,.5);}
+    .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:12px;overflow:hidden;}
+    .feat-card{background:var(--ink);padding:28px 24px;transition:background .2s;}
+    .feat-card:hover{background:var(--ink-mid);}
+    .feat-ico{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:20px;}
+    .ico-cop{background:var(--copper-pale);color:var(--copper);}
+    .ico-sage{background:var(--sage-pale);color:var(--sage);}
+    .feat-card h3{font-size:15px;font-weight:600;color:#fff;margin-bottom:8px;}
+    .feat-card p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.62;}
+
+    /* MPESA */
+    .mpesa-wrap{background:var(--bg);padding:64px 40px;}
+    .mpesa-inner{max-width:980px;margin:0 auto;background:var(--sage);border-radius:14px;padding:40px 48px;display:flex;align-items:center;justify-content:space-between;gap:32px;}
+    .mpesa-inner h2{font-family:'DM Serif Display',serif;font-size:28px;color:#fff;margin-bottom:10px;}
+    .mpesa-inner p{font-size:15px;color:rgba(255,255,255,.72);max-width:400px;line-height:1.65;}
+    .mpesa-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);color:#fff;padding:7px 18px;border-radius:20px;font-size:13px;font-weight:500;margin-top:18px;border:1px solid rgba(255,255,255,.2);}
+    .code-box{background:rgba(0,0,0,.18);border-radius:12px;padding:22px 26px;border:1px solid rgba(255,255,255,.14);text-align:center;min-width:190px;flex-shrink:0;}
+    .code-top{font-size:10px;color:rgba(255,255,255,.45);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;}
+    .code-val{font-family:'DM Serif Display',serif;font-size:21px;color:#fff;letter-spacing:2px;}
+    .code-sub{font-size:9px;color:rgba(255,255,255,.38);margin-top:5px;}
+    .code-tags{margin-top:14px;font-size:12px;color:rgba(255,255,255,.7);}
+
+    /* CTA */
+    .cta-wrap{background:var(--copper-pale);border-top:1px solid var(--border);padding:72px 40px 80px;text-align:center;}
+    .cta-wrap .eyebrow{margin-bottom:16px;}
+    .cta-wrap h2{font-family:'DM Serif Display',serif;font-size:38px;color:var(--text-head);margin-bottom:12px;}
+    .cta-wrap p{font-size:16px;color:var(--text-muted);max-width:420px;margin:0 auto 28px;line-height:1.65;}
+    .cta-note{font-size:12px;color:var(--text-muted);margin-top:12px;}
+
+    /* FOOTER */
+    .footer{background:var(--ink);padding:28px 40px;display:flex;justify-content:space-between;align-items:center;}
+    .footer-logo{display:flex;align-items:center;gap:8px;font-family:'DM Serif Display',serif;font-size:19px;color:var(--copper-light);letter-spacing:.5px;}
+    .footer-links{display:flex;gap:22px;}
+    .footer-links a{color:rgba(255,255,255,.4);font-size:13px;text-decoration:none;transition:color .15s;}
+    .footer-links a:hover{color:var(--copper-light);}
+    .footer-copy{font-size:12px;color:rgba(255,255,255,.25);}
+
+    /* MODAL */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:center;justify-content:center;padding:20px;}
+    .modal-overlay.show{display:flex;}
+    .modal{background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.25);}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:22px 24px 0;}
+    .modal-head h3{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text-head);}
+    .modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-muted);padding:4px;}
+    .modal-body{padding:16px 24px 24px;}
+    .modal-desc{font-size:14px;color:var(--text-muted);margin-bottom:20px;line-height:1.6;}
+    .field{margin-bottom:14px;}
+    .field label{display:block;font-size:13px;font-weight:500;color:var(--text-head);margin-bottom:5px;}
+    .field input,.field select{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:7px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--text-head);background:#fff;transition:border-color .15s;outline:none;}
+    .field input:focus,.field select:focus{border-color:var(--sage);}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .err-banner{display:none;background:#FEF2F2;border:1px solid #FECACA;border-radius:7px;padding:10px 14px;font-size:13px;color:#DC2626;margin-bottom:14px;}
+    .err-banner.show{display:block;}
+    .modal-actions{display:flex;gap:10px;margin-top:6px;}
+    .btn-cancel{flex:1;background:var(--bg);border:1.5px solid var(--border);color:var(--text-body);border-radius:7px;padding:11px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .btn-submit{flex:2;background:var(--copper);color:#fff;border:none;border-radius:7px;padding:11px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
+    .btn-submit:hover{background:#9E5222;}
+    .btn-submit:disabled{opacity:.6;cursor:not-allowed;}
+    .success-box{text-align:center;padding:32px 24px;}
+    .success-icon{font-size:48px;margin-bottom:12px;}
+    .success-box h3{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text-head);margin-bottom:8px;}
+    .success-box p{font-size:14px;color:var(--text-muted);line-height:1.65;margin-bottom:20px;}
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .nav{padding:12px 20px;}
+      .nav-links a{display:none;}
+      .hero{grid-template-columns:1fr;}
+      .hero-left{padding:48px 24px 40px;}
+      .hero-left h1{font-size:34px;}
+      .hero-right{padding:32px 20px;}
+      .questions,.feats-wrap,.mpesa-wrap,.cta-wrap{padding:48px 20px;}
+      .feat-grid{grid-template-columns:1fr;}
+      .mpesa-inner{flex-direction:column;padding:28px 24px;}
+      .ticker{padding:10px 20px;gap:20px;}
+      .footer{flex-direction:column;gap:16px;text-align:center;padding:24px 20px;}
+      .footer-links{flex-wrap:wrap;justify-content:center;}
+      .field-row{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <div class="logo">
+    <div class="logo-mark">
+      <svg width="900" height="130" viewBox="0 0 900 130" xmlns="http://www.w3.org/2000/svg" aria-label="JUKUMU logo">
+
+        <!-- NO white background — logo directly on navbar -->
+
+        <!-- LEFT LEAF -->
+        <path d="M 98 108 C 96 96, 84 80, 70 62 C 58 47, 44 33, 36 22 C 30 14, 27 9, 30 5 C 33 2, 40 2, 48 7 C 62 16, 76 34, 88 56 C 100 78, 106 96, 104 108 Z" fill="#6b8f5e"/>
+        <path d="M 96 104 C 84 80, 66 52, 46 28 C 38 18, 32 10, 30 6" fill="none" stroke="#4a6840" stroke-width="1.4" opacity="0.45" stroke-linecap="round"/>
+        <path d="M 92 100 C 82 78, 66 54, 50 32" fill="none" stroke="#9ab888" stroke-width="4" stroke-linecap="round" opacity="0.25"/>
+
+        <!-- RIGHT LEAF -->
+        <path d="M 116 108 C 118 96, 130 80, 144 62 C 156 47, 170 33, 178 22 C 184 14, 187 9, 184 5 C 181 2, 174 2, 166 7 C 152 16, 138 34, 126 56 C 114 78, 108 96, 110 108 Z" fill="#5a7a50"/>
+        <path d="M 118 104 C 130 80, 148 52, 168 28 C 176 18, 182 10, 184 6" fill="none" stroke="#3d5c38" stroke-width="1.4" opacity="0.45" stroke-linecap="round"/>
+        <path d="M 122 100 C 132 78, 148 54, 164 32" fill="none" stroke="#9ab888" stroke-width="4" stroke-linecap="round" opacity="0.25"/>
+
+        <!-- GLOW RAYS -->
+        <g stroke="#b0b090" stroke-linecap="round" opacity="0.7">
+          <line x1="107" y1="22" x2="107" y2="10" stroke-width="1.8"/>
+          <line x1="118" y1="25" x2="123" y2="13" stroke-width="1.6"/>
+          <line x1="128" y1="33" x2="136" y2="23" stroke-width="1.4"/>
+          <line x1="134" y1="44" x2="144" y2="36" stroke-width="1.3"/>
+          <line x1="96"  y1="25" x2="91"  y2="13" stroke-width="1.6"/>
+          <line x1="86"  y1="33" x2="78"  y2="23" stroke-width="1.4"/>
+          <line x1="80"  y1="44" x2="70"  y2="36" stroke-width="1.3"/>
+        </g>
+
+        <!-- COIN -->
+        <circle cx="107" cy="58" r="20" fill="#c8763a"/>
+        <circle cx="107" cy="58" r="16" fill="#d4883f" opacity="0.4"/>
+        <circle cx="107" cy="58" r="15.5" fill="none" stroke="#a85e28" stroke-width="1.2"/>
+        <rect x="94" y="50" width="26" height="16" rx="3" fill="none" stroke="white" stroke-width="1.6"/>
+        <rect x="97" y="53" width="20" height="10" rx="1.5" fill="none" stroke="white" stroke-width="0.6" opacity="0.4"/>
+        <circle cx="107" cy="58" r="4" fill="none" stroke="white" stroke-width="1.3"/>
+        <line x1="94"  y1="58" x2="101" y2="58" stroke="white" stroke-width="1.2" opacity="0.6"/>
+        <line x1="113" y1="58" x2="120" y2="58" stroke="white" stroke-width="1.2" opacity="0.6"/>
+
+        <!-- JUKUMU centred under icon -->
+        <text x="107" y="122" font-family="Georgia,'Times New Roman',serif"
+              font-size="14" font-weight="700" letter-spacing="4"
+              fill="#2c3848" text-anchor="middle">JUKUMU</text>
+
+        <!-- DIVIDER -->
+        <line x1="226" y1="12" x2="226" y2="118" stroke="#D8DDD4" stroke-width="1.5"/>
+
+        <!-- TAGLINE — fitted to available width in one line -->
+        <text x="244" y="72" font-family="Georgia,'Times New Roman',serif"
+              font-size="21" font-weight="700" fill="#2c3848">
+          Smart finance management for <tspan fill="#c8763a">grassroots</tspan> growth.
+        </text>
+
+      </svg>
+    </div>
+    
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#about">About</a>
+    <a href="http://localhost:3000" class="btn-signin" target="_blank">
+      <i class="ti ti-login" aria-hidden="true"></i> Sign In
+    </a>
+    <button class="btn-nav" onclick="openModal()">Request Demo</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">
+      <i class="ti ti-map-pin" style="font-size:12px" aria-hidden="true"></i>
+      Built for CBOs
+    </div>
+    <h1>Your CBO's <em>finances,</em> finally in order</h1>
+    <p>JUKUMU gives treasurers a simple, offline-ready tool to track contributions, expenses, and M-Pesa payments — no spreadsheets, no confusion.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal()">Request a Demo</button>
+      <a href="http://localhost:3000" class="btn-ghost" target="_blank">Sign In</a>
+    </div>
+    <p class="hero-note">
+      <i class="ti ti-wifi-off" style="font-size:12px;vertical-align:-2px" aria-hidden="true"></i>
+      Works offline &nbsp;·&nbsp; M-Pesa ready &nbsp;·&nbsp; Kiswahili/English
+    </p>
+  </div>
+  <div class="hero-right">
+    <div class="dash">
+      <div class="win-bar">
+        <div class="w" style="background:#ff5f57"></div>
+        <div class="w" style="background:#febc2e"></div>
+        <div class="w" style="background:#28c840"></div>
+        <span class="dash-lbl">CityCLEAN CBO — Dashboard</span>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="kpi-l">Total income</div><div class="kpi-v">KES 142,500</div></div>
+        <div class="kpi"><div class="kpi-l">Expenses</div><div class="kpi-v cop">KES 38,200</div></div>
+        <div class="kpi"><div class="kpi-l">Members</div><div class="kpi-v">24</div></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-lbl">Monthly contributions — 2025</div>
+        <div class="bars">
+          <div class="bw"><div class="b" style="height:36px;background:#8AAD8C;opacity:.4"></div><span class="bl">Jan</span></div>
+          <div class="bw"><div class="b" style="height:50px;background:#8AAD8C;opacity:.55"></div><span class="bl">Feb</span></div>
+          <div class="bw"><div class="b" style="height:42px;background:#8AAD8C;opacity:.7"></div><span class="bl">Mar</span></div>
+          <div class="bw"><div class="b" style="height:56px;background:#5A7A5C"></div><span class="bl">Apr</span></div>
+          <div class="bw"><div class="b" style="height:64px;background:#B5632A"></div><span class="bl">May</span></div>
+        </div>
+      </div>
+      <div class="txs">
+        <div class="tx">
+          <div class="txl">
+            <div class="av">JO</div>
+            <div><div class="tn">Jane Otieno</div><div class="ts">M-Pesa · E01M02P1R1</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span class="ta">+KES 500</span><span class="auto-badge">Auto</span>
+          </div>
+        </div>
+        <div class="tx">
+          <div class="txl">
+            <div class="av">SK</div>
+            <div><div class="tn">Samuel Kipchoge</div><div class="ts">Cash · May 7</div></div>
+          </div>
+          <span class="ta">+KES 1,000</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="tick-item">CityCLEAN CBO <span>KES 142,500 collected</span></div>
+  <div class="tick-item">Fisher CBO · Sindo <span>KES 89,200 collected</span></div>
+  <div class="tick-item">MkulimaBest CBO · Nyeri <span>KES 204,800 collected</span></div>
+  <div class="tick-item">24 members · 3 projects <span>fully tracked</span></div>
+  <div class="tick-item">M-Pesa Paybill <span>4188463</span></div>
+</div>
+
+<!-- FAQ -->
+<section class="questions" id="how">
+  <div class="eyebrow">Start here</div>
+  <div class="sec-title">What does your CBO need today?</div>
+  <p class="sec-sub">Pick the question that matters most to your group — JUKUMU handles the rest.</p>
+  <div class="q-grid">
+    <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
+      <div class="q-left">
+        <span class="q-num">01</span>
+        <span class="q-text">How do I track M-Pesa payments automatically?</span>
+      </div>
+      <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="q-answer"><p>Members pay to your JUKUMU Paybill (<strong>4188463</strong>) using an account number like <strong>E01M04P1R1</strong>. JUKUMU reads this code, matches the payment to the right member and project, and records it instantly — no treasurer action needed. The <strong>Auto</strong> badge confirms it was captured automatically.</p></div>
+
+    <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
+      <div class="q-left">
+        <span class="q-num">02</span>
+        <span class="q-text">How do I record cash contributions from members?</span>
+      </div>
+      <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="q-answer"><p>Open the <strong>Income</strong> page in the JUKUMU app, tap <strong>Record Cash</strong>, select the member, enter the amount and project. Works fully offline — the record is saved to your phone and synced to the server the next time you have internet. A receipt number is generated for your paper records.</p></div>
+
+    <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
+      <div class="q-left">
+        <span class="q-num">03</span>
+        <span class="q-text">How do I generate a report for our board or donors?</span>
+      </div>
+      <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="q-answer"><p>Go to the <strong>Reports</strong> page, choose your date range and report type (Board Report, Donor Report, or KRA Compliance), pick English or Kiswahili, then tap <strong>Generate</strong>. JUKUMU's AI writes a complete narrative report in seconds. You can also download a Word template to fill in manually.</p></div>
+
+    <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
+      <div class="q-left">
+        <span class="q-num">04</span>
+        <span class="q-text">How do I manage expenses and stay KRA compliant?</span>
+      </div>
+      <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="q-answer"><p>Record each expense with a vendor, amount, and category. JUKUMU automatically calculates <strong>5% Withholding Tax (WHT)</strong> on service payments above KES 24,000. Every expense gets a voucher number (e.g. <strong>EXP/2025/000012</strong>) that cross-references your physical receipts — making KRA audits straightforward.</p></div>
+
+    <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
+      <div class="q-left">
+        <span class="q-num">05</span>
+        <span class="q-text">How does JUKUMU work when there's no internet?</span>
+      </div>
+      <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="q-answer"><p>JUKUMU is <strong>offline-first</strong> — all data is saved to your phone first, then synced to the cloud when internet is available. You'll see an offline indicator at the top of the screen. All features (recording income, expenses, viewing members) work normally without internet. Nothing is lost.</p></div>
+
+    <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
+      <div class="q-left">
+        <span class="q-num">06</span>
+        <span class="q-text">How do I onboard my CBO onto JUKUMU?</span>
+      </div>
+      <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
+    </div>
+    <div class="q-answer"><p>Click <strong>Request a Demo</strong> and fill in your CBO's details. A JUKUMU team member will contact you within 24 hours to set everything up — including your M-Pesa Paybill, member list, and treasurer account. Setup is handled entirely by JUKUMU staff. No technical skills needed.</p></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="feats-wrap" id="features">
+  <div class="feats-inner">
+    <div class="eyebrow">Why JUKUMU</div>
+    <div class="sec-title">Everything a treasurer needs</div>
+    <p class="sec-sub" style="margin-bottom:36px;">Designed for community leaders with limited accounting background — clear, simple, built for Kenya's realities.</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-ico ico-cop"><i class="ti ti-wifi-off" aria-hidden="true"></i></div>
+        <h3>Offline-first</h3>
+        <p>Works without internet. Syncs automatically when connection returns — for rural and peri-urban CBOs.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico ico-sage"><i class="ti ti-currency-dollar" aria-hidden="true"></i></div>
+        <h3>M-Pesa auto-capture</h3>
+        <p>Paybill payments recorded instantly. No manual entry, no missed contributions, no errors.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico ico-cop"><i class="ti ti-file-text" aria-hidden="true"></i></div>
+        <h3>AI-generated reports</h3>
+        <p>Board reports, donor summaries, and KRA compliance in English or Kiswahili — in seconds.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico ico-sage"><i class="ti ti-users" aria-hidden="true"></i></div>
+        <h3>Member management</h3>
+        <p>Track all members, their contribution history and outstanding amounts in one place.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico ico-cop"><i class="ti ti-receipt" aria-hidden="true"></i></div>
+        <h3>Expense tracking</h3>
+        <p>Voucher numbers for audit trails. WHT calculated automatically on service payments over KES 24,000.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ico ico-sage"><i class="ti ti-language" aria-hidden="true"></i></div>
+        <h3>Kiswahili / English</h3>
+        <p>Switch languages anytime — so every treasurer works in the language they know best.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MPESA -->
+<section class="mpesa-wrap">
+  <div class="mpesa-inner">
+    <div>
+      <h2>Works seamlessly with M-Pesa</h2>
+      <p>When a member pays your Paybill, JUKUMU captures the payment instantly — matching it to the right member, project, and reason automatically.</p>
+      <div class="mpesa-pill">
+        <i class="ti ti-check" aria-hidden="true"></i>
+        Paybill 4188463 · Live C2B integration
+      </div>
+    </div>
+    <div class="code-box">
+      <div class="code-top">Member pays via M-Pesa</div>
+      <div class="code-val">E01M04P1R1</div>
+      <div class="code-sub">Entity · Member · Project · Reason</div>
+      <div class="code-tags">
+        <i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i> Auto-matched &nbsp;
+        <i class="ti ti-check" style="font-size:11px" aria-hidden="true"></i> Reconciled
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-wrap" id="pricing">
+  <div class="eyebrow">Get started</div>
+  <h2>Ready to bring order to your CBO finances?</h2>
+  <p>Request a free demo — JUKUMU staff handle setup from start to finish.</p>
+  <button class="btn-primary" style="font-size:15px;padding:14px 38px;" onclick="openModal()">Request a Demo</button>
+  <p class="cta-note">No payment required · Setup done by JUKUMU staff</p>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="about">
+  <div class="footer-logo">
+  <svg width="48" height="48" viewBox="0 0 680 490" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M 308 300 C 306 275, 280 238, 254 204 C 232 174, 208 150, 194 136 C 184 126, 178 120, 183 113 C 188 107, 198 108, 210 116 C 234 132, 258 162, 278 194 C 306 236, 316 266, 316 300 Z" fill="#6b8f5e"/>
+    <path d="M 372 300 C 374 275, 400 238, 426 204 C 448 174, 472 150, 486 136 C 496 126, 502 120, 497 113 C 492 107, 482 108, 470 116 C 446 132, 422 162, 402 194 C 374 236, 364 266, 364 300 Z" fill="#5a7a50"/>
+    <circle cx="340" cy="210" r="34" fill="#c8763a"/>
+    <circle cx="340" cy="210" r="27" fill="none" stroke="#a85e28" stroke-width="1.2"/>
+    <rect x="320" y="197" width="40" height="24" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
+    <circle cx="340" cy="209" r="5.5" fill="none" stroke="white" stroke-width="1.5"/>
+  </svg>
+    JUKUMU
+  </div>
+  <div class="footer-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#">Privacy</a>
+    <a href="#">Contact</a>
+  </div>
+  <span class="footer-copy">© 2025 JUKUMU · Nairobi, Kenya</span>
+</footer>
+
+<!-- REQUEST DEMO MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div id="formView">
+      <div class="modal-head">
+        <h3>Request a Demo</h3>
+        <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Tell us about your CBO — our team will reach out within 24 hours to set everything up for you. Hakuna malipo. / No payment required.</p>
+        <div class="err-banner" id="errBanner"><span id="errText"></span></div>
+        <div class="field">
+          <label>CBO / Group name <span style="color:#dc2626">*</span></label>
+          <input type="text" id="cboName" placeholder="e.g. Tumaini Women Group"/>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Your name <span style="color:#dc2626">*</span></label>
+            <input type="text" id="contactName" placeholder="Full name"/>
+          </div>
+          <div class="field">
+            <label>Role in CBO</label>
+            <input type="text" id="role" placeholder="e.g. Treasurer, Chairperson"/>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Phone number <span style="color:#dc2626">*</span></label>
+            <input type="tel" id="phone" placeholder="07xx xxx xxx"/>
+          </div>
+          <div class="field">
+            <label>Email address</label>
+            <input type="email" id="email" placeholder="optional"/>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>County</label>
+            <select id="county">
+              <option value="">Select county…</option>
+              <option>Nairobi</option><option>Mombasa</option><option>Kisumu</option>
+              <option>Nakuru</option><option>Eldoret / Uasin Gishu</option><option>Kiambu</option>
+              <option>Machakos</option><option>Kajiado</option><option>Murang'a</option>
+              <option>Nyeri</option><option>Meru</option><option>Embu</option>
+              <option>Kirinyaga</option><option>Nyandarua</option><option>Laikipia</option>
+              <option>Samburu</option><option>Trans Nzoia</option><option>West Pokot</option>
+              <option>Turkana</option><option>Marsabit</option><option>Isiolo</option>
+              <option>Garissa</option><option>Wajir</option><option>Mandera</option>
+              <option>Tana River</option><option>Lamu</option><option>Taita Taveta</option>
+              <option>Kilifi</option><option>Kwale</option><option>Homa Bay</option>
+              <option>Migori</option><option>Siaya</option><option>Kisii</option>
+              <option>Nyamira</option><option>Bomet</option><option>Kericho</option>
+              <option>Narok</option><option>Nandi</option><option>Baringo</option>
+              <option>Elgeyo-Marakwet</option><option>Bungoma</option><option>Busia</option>
+              <option>Kakamega</option><option>Vihiga</option><option>Kitui</option>
+              <option>Makueni</option><option>Tharaka-Nithi</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Number of members</label>
+            <select id="memberCount">
+              <option value="">Approximate…</option>
+              <option>1–20</option><option>21–50</option><option>51–100</option>
+              <option>101–200</option><option>200+</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-cancel" id="cancelBtn">Cancel</button>
+          <button class="btn-submit" id="submitBtn">Send Request →</button>
+        </div>
+      </div>
+    </div>
+    <div id="successView" style="display:none">
+      <div class="success-box">
+        <div class="success-icon">✅</div>
+        <h3>Request received!</h3>
+        <p>Asante sana! We've received your request for <strong id="successName"></strong>. Our team will contact you on <strong id="successPhone"></strong> within 24 hours to set up JUKUMU for your group.</p>
+        <button class="btn-primary" id="closeSuccessBtn" style="width:100%">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── NOTIFICATION SERVICE URL ──
+  const NOTIFICATION_BASE = 'http://localhost:9085';
+
+  function openModal() {
+    document.getElementById('modalOverlay').classList.add('show');
+    document.getElementById('formView').style.display = '';
+    document.getElementById('successView').style.display = 'none';
+    document.getElementById('errBanner').classList.remove('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  async function submitForm() {
+    const cboName     = document.getElementById('cboName').value.trim();
+    const contactName = document.getElementById('contactName').value.trim();
+    const phone       = document.getElementById('phone').value.trim();
+    const email       = document.getElementById('email').value.trim();
+    const county      = document.getElementById('county').value;
+    const role        = document.getElementById('role').value.trim();
+    const memberCount = document.getElementById('memberCount').value;
+
+    if (!cboName)     return showErr('Please enter your CBO or group name.');
+    if (!contactName) return showErr('Please enter your name.');
+    if (!phone)       return showErr('Please enter a phone number so we can reach you.');
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    document.getElementById('errBanner').classList.remove('show');
+
+    try {
+      const res = await fetch(`${NOTIFICATION_BASE}/api/notifications/enquiries`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cboName, contactName, phone, email, county, role, memberCount })
+      });
+
+      if (res.ok) {
+        document.getElementById('successName').textContent  = cboName;
+        document.getElementById('successPhone').textContent = phone;
+        document.getElementById('formView').style.display   = 'none';
+        document.getElementById('successView').style.display = '';
+      } else {
+        const data = await res.json().catch(() => ({}));
+        showErr(data.message || 'Something went wrong. Please try again or call us directly.');
+      }
+    } catch (e) {
+      showErr('Could not reach the server. Please check your connection and try again.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send Request →';
+    }
+  }
+
+  function showErr(msg) {
+    document.getElementById('errText').textContent = msg;
+    document.getElementById('errBanner').classList.add('show');
+  }
+
+  function toggleQ(row) {
+    const answer  = row.nextElementSibling;
+    const arrow   = row.querySelector('.q-arrow');
+    const isOpen  = answer.classList.contains('open');
+    document.querySelectorAll('.q-answer.open').forEach(el => {
+      el.classList.remove('open');
+      el.previousElementSibling.querySelector('.q-arrow').style.transform = '';
+      el.previousElementSibling.setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      answer.classList.add('open');
+      arrow.style.transform = 'rotate(180deg)';
+      row.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('cancelBtn').addEventListener('click', closeModal);
+  document.getElementById('closeSuccessBtn').addEventListener('click', closeModal);
+  document.getElementById('submitBtn').addEventListener('click', submitForm);
+  document.getElementById('modalOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  document.querySelectorAll('.q-row').forEach(row => {
+    row.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleQ(row); } });
+  });
+</script>
+</body>
+</html>
