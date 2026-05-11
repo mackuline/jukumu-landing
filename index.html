@@ -18,9 +18,9 @@
       --text-head:#0D1117; --text-body:#2E3A2F; --text-muted:#6A7D6B;
     }
     *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-body);line-height:1.6;}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-body);line-height:1.6;overflow-x:hidden;}
 
-    /* NAV */
+    /* NAV — desktop */
     .nav{display:flex;align-items:center;justify-content:space-between;padding:15px 40px;border-bottom:1px solid var(--border);background:var(--ivory);position:sticky;top:0;z-index:100;}
     .logo{display:flex;align-items:center;gap:10px;}
     .logo-mark{display:flex;align-items:center;justify-content:center;}
@@ -43,7 +43,7 @@
     .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px;}
     .btn-primary{background:var(--copper);color:#fff;border:none;border-radius:6px;padding:13px 28px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
     .btn-primary:hover{background:#9E5222;}
-    .btn-ghost{background:transparent;color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:12px 24px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
+    .btn-ghost{background:transparent;color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:12px 24px;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;text-decoration:none;display:inline-flex;align-items:center;}
     .btn-ghost:hover{background:rgba(255,255,255,.08);}
     .hero-note{font-size:12px;color:rgba(255,255,255,.4);}
     .hero-right{background:var(--sage-pale);padding:44px 40px;display:flex;flex-direction:column;justify-content:center;}
@@ -77,6 +77,18 @@
     .ticker{background:var(--ink-mid);padding:11px 40px;display:flex;gap:36px;overflow:hidden;flex-wrap:nowrap;}
     .tick-item{font-size:12px;color:rgba(255,255,255,.45);white-space:nowrap;display:flex;gap:8px;}
     .tick-item span{color:var(--copper-light);font-weight:600;}
+
+    /* TAGLINE SECTION — desktop: two columns, mobile: collapsible */
+    .tagline-section{background:var(--ivory);border-bottom:1px solid var(--border);}
+    .tagline-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;align-items:center;min-height:80px;}
+    .tagline-left{padding:28px 40px;border-right:1px solid var(--border);}
+    .tagline-left p{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text-head);line-height:1.3;}
+    .tagline-left p em{color:var(--copper);font-style:italic;}
+    .tagline-right{padding:20px 40px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;}
+    .tagline-pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text-muted);font-weight:500;}
+    .tagline-pill i{color:var(--sage);font-size:15px;}
+    /* mobile toggle button — hidden on desktop */
+    .tagline-toggle{display:none;}
 
     /* QUESTIONS */
     .questions{padding:72px 40px;max-width:1060px;margin:0 auto;}
@@ -165,30 +177,44 @@
     .success-box h3{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text-head);margin-bottom:8px;}
     .success-box p{font-size:14px;color:var(--text-muted);line-height:1.65;margin-bottom:20px;}
 
-    /* RESPONSIVE */
+    /* ── RESPONSIVE ── */
     @media(max-width:768px){
-      .nav{padding:12px 20px;}
+      /* NAV: center logo, hide links */
+      .nav{padding:14px 20px;justify-content:center;flex-direction:column;align-items:center;gap:10px;}
       .nav-links a{display:none;}
-      .btn-nav{display:none;}
-      .nav-tagline{display:none;}
-      .logo-mark svg{width:120px;height:auto;}
+      .nav-links{gap:10px;}
+
+      /* HERO: full width black band, no dashboard mockup */
       .hero{grid-template-columns:1fr;}
-      .hero-left{padding:48px 24px 40px;}
-      .hero-left h1{font-size:28px;}
-      .hero-left p{font-size:14px;}
-      .hero-actions{flex-direction:column;}
-      .btn-primary,.btn-ghost{width:100%;text-align:center;display:block;}
+      .hero-left{padding:48px 24px 44px;}
+      .hero-left h1{font-size:32px;}
+      .hero-left p{font-size:15px;max-width:100%;}
+      .hero-actions{flex-direction:column;gap:10px;}
+      .btn-primary{width:100%;text-align:center;padding:14px;}
+      .btn-ghost{width:100%;justify-content:center;padding:13px;}
       .hero-right{display:none;}
-      .questions,.feats-wrap,.mpesa-wrap,.cta-wrap{padding:48px 20px;}
+
+      /* TAGLINE: collapsible on mobile */
+      .tagline-inner{grid-template-columns:1fr;min-height:auto;}
+      .tagline-left{border-right:none;border-bottom:1px solid var(--border);padding:0;}
+      .tagline-right{padding:16px 20px;gap:16px;}
+      .tagline-toggle{display:flex;width:100%;align-items:center;justify-content:space-between;padding:16px 20px;background:none;border:none;cursor:pointer;font-family:'DM Serif Display',serif;font-size:18px;color:var(--text-head);text-align:left;}
+      .tagline-toggle em{color:var(--copper);font-style:italic;}
+      .tagline-toggle-arrow{transition:transform .25s;color:var(--text-muted);font-size:18px;flex-shrink:0;}
+      .tagline-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+      .tagline-body.open{max-height:200px;}
+
+      /* SECTIONS */
+      .questions{padding:40px 20px;}
+      .feats-wrap,.mpesa-wrap,.cta-wrap{padding:48px 20px;}
       .feat-grid{grid-template-columns:1fr;}
       .mpesa-inner{flex-direction:column;padding:28px 24px;}
       .ticker{padding:10px 20px;gap:20px;}
       .footer{flex-direction:column;gap:16px;text-align:center;padding:24px 20px;}
       .footer-links{flex-wrap:wrap;justify-content:center;}
       .field-row{grid-template-columns:1fr;}
-      .mobile-tagline{display:block;}
-      body{overflow-x:hidden;}
-      .sec-title{font-size:26px;}
+      .sec-title{font-size:28px;}
+      .cta-wrap h2{font-size:28px;}
     }
   </style>
 </head>
@@ -199,19 +225,14 @@
   <div class="logo">
     <div class="logo-mark">
       <svg width="900" height="130" viewBox="0 0 900 130" xmlns="http://www.w3.org/2000/svg" aria-label="JUKUMU logo">
-
-        <!-- NO white background — logo directly on navbar -->
-
         <!-- LEFT LEAF -->
         <path d="M 98 108 C 96 96, 84 80, 70 62 C 58 47, 44 33, 36 22 C 30 14, 27 9, 30 5 C 33 2, 40 2, 48 7 C 62 16, 76 34, 88 56 C 100 78, 106 96, 104 108 Z" fill="#6b8f5e"/>
         <path d="M 96 104 C 84 80, 66 52, 46 28 C 38 18, 32 10, 30 6" fill="none" stroke="#4a6840" stroke-width="1.4" opacity="0.45" stroke-linecap="round"/>
         <path d="M 92 100 C 82 78, 66 54, 50 32" fill="none" stroke="#9ab888" stroke-width="4" stroke-linecap="round" opacity="0.25"/>
-
         <!-- RIGHT LEAF -->
         <path d="M 116 108 C 118 96, 130 80, 144 62 C 156 47, 170 33, 178 22 C 184 14, 187 9, 184 5 C 181 2, 174 2, 166 7 C 152 16, 138 34, 126 56 C 114 78, 108 96, 110 108 Z" fill="#5a7a50"/>
         <path d="M 118 104 C 130 80, 148 52, 168 28 C 176 18, 182 10, 184 6" fill="none" stroke="#3d5c38" stroke-width="1.4" opacity="0.45" stroke-linecap="round"/>
         <path d="M 122 100 C 132 78, 148 54, 164 32" fill="none" stroke="#9ab888" stroke-width="4" stroke-linecap="round" opacity="0.25"/>
-
         <!-- GLOW RAYS -->
         <g stroke="#b0b090" stroke-linecap="round" opacity="0.7">
           <line x1="107" y1="22" x2="107" y2="10" stroke-width="1.8"/>
@@ -222,7 +243,6 @@
           <line x1="86"  y1="33" x2="78"  y2="23" stroke-width="1.4"/>
           <line x1="80"  y1="44" x2="70"  y2="36" stroke-width="1.3"/>
         </g>
-
         <!-- COIN -->
         <circle cx="107" cy="58" r="20" fill="#c8763a"/>
         <circle cx="107" cy="58" r="16" fill="#d4883f" opacity="0.4"/>
@@ -232,27 +252,19 @@
         <circle cx="107" cy="58" r="4" fill="none" stroke="white" stroke-width="1.3"/>
         <line x1="94"  y1="58" x2="101" y2="58" stroke="white" stroke-width="1.2" opacity="0.6"/>
         <line x1="113" y1="58" x2="120" y2="58" stroke="white" stroke-width="1.2" opacity="0.6"/>
-
-        <!-- JUKUMU centred under icon -->
+        <!-- JUKUMU -->
         <text x="107" y="122" font-family="Georgia,'Times New Roman',serif"
               font-size="14" font-weight="700" letter-spacing="4"
               fill="#2c3848" text-anchor="middle">JUKUMU</text>
-
-      <g class="nav-tagline">
-        <!-- DIVIDER -->
-        <line x1="226" y1="12" x2="226" y2="118" stroke="#D8DDD4" stroke-width="1.5"/>
-
-        <!-- TAGLINE — fitted to available width in one line -->
-        <text font-family="Georgia,'Times New Roman',serif"
-              font-size="21" font-weight="700" fill="#2c3848">
-          <tspan x="244" y="58">Smart finance management for</tspan>
-          <tspan x="244" dy="28"><tspan fill="#c8763a">grassroots</tspan> growth.</tspan>
-        </text>
-      </g>
-
+        <!-- DIVIDER — hidden on mobile via CSS on parent -->
+        <line class="nav-divider" x1="226" y1="12" x2="226" y2="118" stroke="#D8DDD4" stroke-width="1.5"/>
+        <!-- TAGLINE -->
+        <text x="244" y="58" font-family="Georgia,'Times New Roman',serif"
+              font-size="21" font-weight="700" fill="#2c3848">Smart finance management for</text>
+        <text x="244" y="88" font-family="Georgia,'Times New Roman',serif"
+              font-size="21" font-weight="700" fill="#2c3848"><tspan fill="#c8763a">grassroots</tspan> growth.</text>
       </svg>
     </div>
-    
   </div>
   <div class="nav-links">
     <a href="#features">Features</a>
@@ -278,7 +290,6 @@
     <div class="hero-actions">
       <button class="btn-primary" onclick="openModal()">Request a Demo</button>
       <a href="https://jukumupwa-production.up.railway.app" class="btn-ghost" target="_blank">Sign In</a>
-
     </div>
     <p class="hero-note">
       <i class="ti ti-wifi-off" style="font-size:12px;vertical-align:-2px" aria-hidden="true"></i>
@@ -339,6 +350,34 @@
   <div class="tick-item">M-Pesa Paybill <span>4188463</span></div>
 </div>
 
+<!-- TAGLINE SECTION — two columns on desktop, collapsible on mobile -->
+<div class="tagline-section">
+  <div class="tagline-inner">
+    <div class="tagline-left">
+      <!-- Desktop: plain text. Mobile: toggle button -->
+      <p class="tagline-desktop">Smart finance management for <em>grassroots</em> growth.</p>
+      <button class="tagline-toggle" onclick="toggleTagline(this)" aria-expanded="false">
+        <span>Smart finance for <em>grassroots</em> growth</span>
+        <i class="ti ti-chevron-down tagline-toggle-arrow" aria-hidden="true"></i>
+      </button>
+      <div class="tagline-body" id="taglineBody">
+        <div class="tagline-right" style="padding:0 20px 16px;">
+          <span class="tagline-pill"><i class="ti ti-wifi-off"></i> Works offline</span>
+          <span class="tagline-pill"><i class="ti ti-currency-dollar"></i> M-Pesa ready</span>
+          <span class="tagline-pill"><i class="ti ti-language"></i> Kiswahili/English</span>
+          <span class="tagline-pill"><i class="ti ti-file-analytics"></i> AI reports</span>
+        </div>
+      </div>
+    </div>
+    <div class="tagline-right tagline-right-desktop">
+      <span class="tagline-pill"><i class="ti ti-wifi-off"></i> Works offline</span>
+      <span class="tagline-pill"><i class="ti ti-currency-dollar"></i> M-Pesa ready</span>
+      <span class="tagline-pill"><i class="ti ti-language"></i> Kiswahili/English</span>
+      <span class="tagline-pill"><i class="ti ti-file-analytics"></i> AI reports</span>
+    </div>
+  </div>
+</div>
+
 <!-- FAQ -->
 <section class="questions" id="how">
   <div class="eyebrow">Start here</div>
@@ -346,58 +385,40 @@
   <p class="sec-sub">Pick the question that matters most to your group — JUKUMU handles the rest.</p>
   <div class="q-grid">
     <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
-      <div class="q-left">
-        <span class="q-num">01</span>
-        <span class="q-text">How do I track M-Pesa payments automatically?</span>
-      </div>
+      <div class="q-left"><span class="q-num">01</span><span class="q-text">How do I track M-Pesa payments automatically?</span></div>
       <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
     </div>
-    <div class="q-answer"><p>Members pay to your JUKUMU Paybill (<strong>4188463</strong>) using an account number like <strong>E01M04P1R1</strong>. JUKUMU reads this code, matches the payment to the right member and project, and records it instantly — no treasurer action needed. The <strong>Auto</strong> badge confirms it was captured automatically.</p></div>
+    <div class="q-answer"><p>Members pay to your JUKUMU Paybill (<strong>4188463</strong>) using an account number like <strong>E01M04P1R1</strong>. JUKUMU reads this code, matches the payment to the right member and project, and records it instantly — no treasurer action needed.</p></div>
 
     <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
-      <div class="q-left">
-        <span class="q-num">02</span>
-        <span class="q-text">How do I record cash contributions from members?</span>
-      </div>
+      <div class="q-left"><span class="q-num">02</span><span class="q-text">How do I record cash contributions from members?</span></div>
       <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
     </div>
-    <div class="q-answer"><p>Open the <strong>Income</strong> page in the JUKUMU app, tap <strong>Record Cash</strong>, select the member, enter the amount and project. Works fully offline — the record is saved to your phone and synced to the server the next time you have internet. A receipt number is generated for your paper records.</p></div>
+    <div class="q-answer"><p>Open the <strong>Income</strong> page, tap <strong>Record Cash</strong>, select the member, enter the amount and project. Works fully offline — the record is saved to your phone and synced when internet is available.</p></div>
 
     <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
-      <div class="q-left">
-        <span class="q-num">03</span>
-        <span class="q-text">How do I generate a report for our board or donors?</span>
-      </div>
+      <div class="q-left"><span class="q-num">03</span><span class="q-text">How do I generate a report for our board or donors?</span></div>
       <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
     </div>
-    <div class="q-answer"><p>Go to the <strong>Reports</strong> page, choose your date range and report type (Board Report, Donor Report, or KRA Compliance), pick English or Kiswahili, then tap <strong>Generate</strong>. JUKUMU's AI writes a complete narrative report in seconds. You can also download a Word template to fill in manually.</p></div>
+    <div class="q-answer"><p>Go to the <strong>Reports</strong> page, choose your date range and report type, pick English or Kiswahili, then tap <strong>Generate</strong>. JUKUMU's AI writes a complete narrative report in seconds.</p></div>
 
     <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
-      <div class="q-left">
-        <span class="q-num">04</span>
-        <span class="q-text">How do I manage expenses and stay KRA compliant?</span>
-      </div>
+      <div class="q-left"><span class="q-num">04</span><span class="q-text">How do I manage expenses and stay KRA compliant?</span></div>
       <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
     </div>
-    <div class="q-answer"><p>Record each expense with a vendor, amount, and category. JUKUMU automatically calculates <strong>5% Withholding Tax (WHT)</strong> on service payments above KES 24,000. Every expense gets a voucher number (e.g. <strong>EXP/2025/000012</strong>) that cross-references your physical receipts — making KRA audits straightforward.</p></div>
+    <div class="q-answer"><p>Record each expense with a vendor, amount, and category. JUKUMU automatically calculates <strong>5% WHT</strong> on service payments above KES 24,000. Every expense gets a voucher number for audit trails.</p></div>
 
     <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
-      <div class="q-left">
-        <span class="q-num">05</span>
-        <span class="q-text">How does JUKUMU work when there's no internet?</span>
-      </div>
+      <div class="q-left"><span class="q-num">05</span><span class="q-text">How does JUKUMU work when there's no internet?</span></div>
       <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
     </div>
-    <div class="q-answer"><p>JUKUMU is <strong>offline-first</strong> — all data is saved to your phone first, then synced to the cloud when internet is available. You'll see an offline indicator at the top of the screen. All features (recording income, expenses, viewing members) work normally without internet. Nothing is lost.</p></div>
+    <div class="q-answer"><p>JUKUMU is <strong>offline-first</strong> — all data is saved to your phone first, then synced to the cloud when internet is available. All features work normally without internet. Nothing is lost.</p></div>
 
     <div class="q-row" onclick="toggleQ(this)" role="button" aria-expanded="false" tabindex="0">
-      <div class="q-left">
-        <span class="q-num">06</span>
-        <span class="q-text">How do I onboard my CBO onto JUKUMU?</span>
-      </div>
+      <div class="q-left"><span class="q-num">06</span><span class="q-text">How do I onboard my CBO onto JUKUMU?</span></div>
       <i class="ti ti-chevron-down q-arrow" aria-hidden="true"></i>
     </div>
-    <div class="q-answer"><p>Click <strong>Request a Demo</strong> and fill in your CBO's details. A JUKUMU team member will contact you within 24 hours to set everything up — including your M-Pesa Paybill, member list, and treasurer account. Setup is handled entirely by JUKUMU staff. No technical skills needed.</p></div>
+    <div class="q-answer"><p>Click <strong>Request a Demo</strong> and fill in your CBO's details. A JUKUMU team member will contact you within 24 hours to set everything up — including your M-Pesa Paybill, member list, and treasurer account.</p></div>
   </div>
 </section>
 
@@ -477,14 +498,14 @@
 <!-- FOOTER -->
 <footer class="footer" id="about">
   <div class="footer-logo">
-  <svg width="48" height="48" viewBox="0 0 680 490" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M 308 300 C 306 275, 280 238, 254 204 C 232 174, 208 150, 194 136 C 184 126, 178 120, 183 113 C 188 107, 198 108, 210 116 C 234 132, 258 162, 278 194 C 306 236, 316 266, 316 300 Z" fill="#6b8f5e"/>
-    <path d="M 372 300 C 374 275, 400 238, 426 204 C 448 174, 472 150, 486 136 C 496 126, 502 120, 497 113 C 492 107, 482 108, 470 116 C 446 132, 422 162, 402 194 C 374 236, 364 266, 364 300 Z" fill="#5a7a50"/>
-    <circle cx="340" cy="210" r="34" fill="#c8763a"/>
-    <circle cx="340" cy="210" r="27" fill="none" stroke="#a85e28" stroke-width="1.2"/>
-    <rect x="320" y="197" width="40" height="24" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
-    <circle cx="340" cy="209" r="5.5" fill="none" stroke="white" stroke-width="1.5"/>
-  </svg>
+    <svg width="48" height="48" viewBox="0 0 680 490" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M 308 300 C 306 275, 280 238, 254 204 C 232 174, 208 150, 194 136 C 184 126, 178 120, 183 113 C 188 107, 198 108, 210 116 C 234 132, 258 162, 278 194 C 306 236, 316 266, 316 300 Z" fill="#6b8f5e"/>
+      <path d="M 372 300 C 374 275, 400 238, 426 204 C 448 174, 472 150, 486 136 C 496 126, 502 120, 497 113 C 492 107, 482 108, 470 116 C 446 132, 422 162, 402 194 C 374 236, 364 266, 364 300 Z" fill="#5a7a50"/>
+      <circle cx="340" cy="210" r="34" fill="#c8763a"/>
+      <circle cx="340" cy="210" r="27" fill="none" stroke="#a85e28" stroke-width="1.2"/>
+      <rect x="320" y="197" width="40" height="24" rx="4" fill="none" stroke="white" stroke-width="1.8"/>
+      <circle cx="340" cy="209" r="5.5" fill="none" stroke="white" stroke-width="1.5"/>
+    </svg>
     JUKUMU
   </div>
   <div class="footer-links">
@@ -584,6 +605,16 @@
   // ── NOTIFICATION SERVICE URL ──
   const NOTIFICATION_BASE = 'https://notificationservice-production-3b51.up.railway.app';
 
+  // hide desktop tagline text on mobile (handled in CSS via .tagline-desktop)
+  function toggleTagline(btn) {
+    const body = document.getElementById('taglineBody');
+    const arrow = btn.querySelector('.tagline-toggle-arrow');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open');
+    arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+    btn.setAttribute('aria-expanded', !isOpen);
+  }
+
   function openModal() {
     document.getElementById('modalOverlay').classList.add('show');
     document.getElementById('formView').style.display = '';
@@ -659,6 +690,22 @@
       row.setAttribute('aria-expanded', 'true');
     }
   }
+
+  // hide desktop tagline text on mobile
+  function applyMobileTagline() {
+    const desktopText = document.querySelector('.tagline-desktop');
+    const rightDesktop = document.querySelector('.tagline-right-desktop');
+    if (window.innerWidth <= 768) {
+      if (desktopText) desktopText.style.display = 'none';
+      if (rightDesktop) rightDesktop.style.display = 'none';
+    } else {
+      if (desktopText) desktopText.style.display = '';
+      if (rightDesktop) rightDesktop.style.display = '';
+      document.getElementById('taglineBody').classList.remove('open');
+    }
+  }
+  applyMobileTagline();
+  window.addEventListener('resize', applyMobileTagline);
 
   document.getElementById('modalClose').addEventListener('click', closeModal);
   document.getElementById('cancelBtn').addEventListener('click', closeModal);
