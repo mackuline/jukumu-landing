@@ -169,14 +169,16 @@
     @media(max-width:768px){
       .nav{padding:12px 20px;}
       .nav-links a{display:none;}
-      .btn-nav{display:none;}  /* hide Request Demo from nav on mobile */
+      .btn-nav{display:none;}
+      .nav-tagline{display:none;}
+      .logo-mark svg{width:120px;height:auto;}
       .hero{grid-template-columns:1fr;}
       .hero-left{padding:48px 24px 40px;}
       .hero-left h1{font-size:28px;}
       .hero-left p{font-size:14px;}
       .hero-actions{flex-direction:column;}
-      .btn-primary, .btn-ghost{width:100%;text-align:center;}
-      .hero-right{padding:32px 20px;}
+      .btn-primary,.btn-ghost{width:100%;text-align:center;display:block;}
+      .hero-right{display:none;}
       .questions,.feats-wrap,.mpesa-wrap,.cta-wrap{padding:48px 20px;}
       .feat-grid{grid-template-columns:1fr;}
       .mpesa-inner{flex-direction:column;padding:28px 24px;}
@@ -184,9 +186,9 @@
       .footer{flex-direction:column;gap:16px;text-align:center;padding:24px 20px;}
       .footer-links{flex-wrap:wrap;justify-content:center;}
       .field-row{grid-template-columns:1fr;}
-      .logo-mark svg{width:180px;height:auto;overflow:visible;}
-      .nav-tagline{display:none;}
-      .logo-mark svg{width:120px;height:auto;}
+      .mobile-tagline{display:block;}
+      body{overflow-x:hidden;}
+      .sec-title{font-size:26px;}
     }
   </style>
 </head>
