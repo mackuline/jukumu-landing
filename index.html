@@ -180,6 +180,8 @@
       .footer{flex-direction:column;gap:16px;text-align:center;padding:24px 20px;}
       .footer-links{flex-wrap:wrap;justify-content:center;}
       .field-row{grid-template-columns:1fr;}
+      .logo-mark svg { width: 220px; height: auto; }
+      .nav { flex-wrap: wrap; gap: 8px; }
     }
   </style>
 </head>
@@ -247,7 +249,7 @@
     <a href="#how">How it works</a>
     <a href="#pricing">Pricing</a>
     <a href="#about">About</a>
-    <a href="http://localhost:3000" class="btn-signin" target="_blank">
+    <a href="https://jukumupwa-production.up.railway.app" class="btn-signin" target="_blank">
       <i class="ti ti-login" aria-hidden="true"></i> Sign In
     </a>
     <button class="btn-nav" onclick="openModal()">Request Demo</button>
@@ -265,7 +267,8 @@
     <p>JUKUMU gives treasurers a simple, offline-ready tool to track contributions, expenses, and M-Pesa payments — no spreadsheets, no confusion.</p>
     <div class="hero-actions">
       <button class="btn-primary" onclick="openModal()">Request a Demo</button>
-      <a href="http://localhost:3000" class="btn-ghost" target="_blank">Sign In</a>
+      <a href="https://jukumupwa-production.up.railway.app" class="btn-ghost" target="_blank">Sign In</a>
+
     </div>
     <p class="hero-note">
       <i class="ti ti-wifi-off" style="font-size:12px;vertical-align:-2px" aria-hidden="true"></i>
@@ -569,7 +572,7 @@
 
 <script>
   // ── NOTIFICATION SERVICE URL ──
-  const NOTIFICATION_BASE = 'http://localhost:9085';
+  const NOTIFICATION_BASE = 'https://notificationservice-production-3b51.up.railway.app';
 
   function openModal() {
     document.getElementById('modalOverlay').classList.add('show');
