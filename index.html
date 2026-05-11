@@ -709,6 +709,9 @@
     const cboName     = document.getElementById('cboName').value.trim();
     const contactName = document.getElementById('contactName').value.trim();
     const phone       = document.getElementById('phone').value.trim();
+    const phoneRegex = /^(07|01)\d{8}$/;
+    if (!phoneRegex.test(phone.replace(/\s/g, ''))) 
+       return showErr('Please enter a valid Kenyan phone number (e.g. 0712345678).');
     const email       = document.getElementById('email').value.trim();
     const county      = document.getElementById('county').value;
     const role        = document.getElementById('role').value.trim();
